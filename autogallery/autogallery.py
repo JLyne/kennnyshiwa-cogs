@@ -3,7 +3,7 @@ import discord
 import aiohttp
 import io
 from io import BytesIO
-from typing import Any
+from typing import Any, Union
 from datetime import datetime
 from redbot.core import Config, checks, commands
 
@@ -41,7 +41,7 @@ class Autogallery(Cog):
     @checks.admin_or_permissions(manage_guild=True)
     @checks.bot_has_permissions(manage_messages=True)
     async def addautogallery(
-        self, ctx: commands.Context, channel: discord.TextChannel
+        self, ctx: commands.Context, channel: Union[discord.TextChannel, discord.Thread, discord.VoiceChannel]
     ):
         """Add a channel to the list of Gallery channels."""
         if channel.id not in await self.config.guild(ctx.guild).channels():
@@ -56,7 +56,7 @@ class Autogallery(Cog):
     @checks.admin_or_permissions(manage_guild=True)
     @checks.bot_has_permissions(manage_messages=True)
     async def rmautogallery(
-        self, ctx: commands.Context, channel: discord.TextChannel
+        self, ctx: commands.Context, channel: Union[discord.TextChannel, discord.Thread, discord.VoiceChannel]
     ):
         """Remove a channel from the list of Gallery channels."""
         if channel.id in await self.config.guild(ctx.guild).channels():
@@ -70,7 +70,7 @@ class Autogallery(Cog):
     @commands.guild_only()
     @checks.admin_or_permissions(manage_guild=True)
     @checks.bot_has_permissions(manage_messages=True)
-    async def gallerychannel(self, ctx: commands.Context, channel: discord.TextChannel):
+    async def gallerychannel(self, ctx: commands.Context, channel: Union[discord.TextChannel, discord.Thread, discord.VoiceChannel]):
         """Add the gallery channel for auto posting images"""
         autochannel = await self.config.guild(ctx.guild).channel()
         if autochannel is None:
